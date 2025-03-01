@@ -19,7 +19,7 @@ class PostViewSet(ModelViewSet):
     def perform_update(self, serializer):
         post = (
             self.get_object()
-        )  
+        )
         if self.request.user != post.author:
             raise PermissionDenied(
                 "You do not have permission to edit this post."
@@ -50,7 +50,7 @@ class CommentViewSet(ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         comment = self.get_object()
         post = get_object_or_404(
-            models.Post, 
+            models.Post,
             pk=self.kwargs.get("post_id")
         )
         if post is not None:
