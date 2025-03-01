@@ -15,7 +15,9 @@ class PostViewSet(ModelViewSet):
         serializer.save(author=self.request.user)
 
     def perform_update(self, serializer):
-        post = models.Post.objects.get(pk=self.kwargs.get('post_id'))
+        post = self.get_object()
+        if post is None:
+            return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
         if self.request.user != post.author:
             return Response(serializer.data, status=status.HTTP_403_FORBIDDEN)
         serializer.save(data=self.request.data, instance=post)
